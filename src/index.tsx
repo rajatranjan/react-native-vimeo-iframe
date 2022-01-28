@@ -30,11 +30,20 @@ export const Vimeo: React.FC<LayoutProps> = ({
 
   const [autoPlayValue, setAutoPlay] = useState<boolean>(autoPlay)
   const muted = Platform.OS === 'android' && autoPlayValue
-  const toggleAutoPlay = useCallback(() => setAutoPlay(!autoPlayValue), [
-    autoPlayValue,
-  ])
+  const toggleAutoPlay = useCallback(
+    () => setAutoPlay(!autoPlayValue),
+    [autoPlayValue]
+  )
 
   const handlers: any = {}
+  //a variable to play and pause the video
+  const playPause = useCallback(() => {
+    if (isPlaying) {
+      handlers.pause()
+    } else {
+      handlers.play()
+    }
+  }, [isPlaying])
 
   const player = useCallback(
     (action: PlayerActions) => {
