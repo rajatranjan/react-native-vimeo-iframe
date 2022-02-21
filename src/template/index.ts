@@ -43,6 +43,16 @@ iframe.mozallowfullscreen = true;
 iframe.allow="autoplay;fullscreen"
 iframe.id = PLAYER_ID;
 document.body.appendChild(iframe);
+
+const  sendEvent = (evt, data) => {
+  // Passes events through the bridge
+  var payload = {
+    name: evt,
+    data: data
+  };
+  window.ReactNativeWebView.postMessage(JSON.stringify(payload));
+}
+
 var player = $f(iframe);
 player.addEvent('ready', function() {
   // Ideally we could just iterate over event names and add the sendEvent
@@ -66,14 +76,7 @@ player.addEvent('ready', function() {
 player.api(message, function(data) {
   sendEvent(message, data);
 });
-const  sendEvent = (evt, data) => {
-  // Passes events through the bridge
-  var payload = {
-    name: evt,
-    data: data
-  };
-  window.ReactNativeWebView.postMessage(JSON.stringify(payload));
-}
+
 }
 
 webViewBridge();
